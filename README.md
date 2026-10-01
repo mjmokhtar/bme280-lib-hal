@@ -1,98 +1,100 @@
+🇮🇩 Bahasa Indonesia | [🇬🇧 English](README.en.md)
+
 # BME280 STM32 HAL Library
 
-A lightweight C driver and example project for interfacing the Bosch BME280 environmental sensor with STM32 microcontrollers through the STM32 HAL I2C API.
+Driver C ringan dan project contoh untuk menghubungkan sensor lingkungan Bosch BME280 dengan mikrokontroler STM32 melalui API I2C STM32 HAL.
 
-The included project targets the **STM32F401CCU6** and demonstrates reading temperature, barometric pressure, relative humidity, and estimated altitude. Measurements are available through USART2 and SWV/ITM debug output.
+Project yang disertakan menargetkan **STM32F401CCU6** dan mendemonstrasikan pembacaan suhu, tekanan barometrik, kelembapan relatif, dan estimasi ketinggian. Hasil pengukuran tersedia lewat USART2 dan keluaran debug SWV/ITM.
 
 [![Language](https://img.shields.io/badge/language-C-blue.svg)](https://github.com/mjmokhtar/bme280-lib-hal)
 [![Platform](https://img.shields.io/badge/platform-STM32-orange.svg)](https://www.st.com/stm32)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Features
+## Fitur
 
-- STM32 HAL-based I2C communication
-- BME280 I2C addresses `0x76` and `0x77`
-- Chip-ID verification and software reset
-- Factory calibration data loading
-- Compensated temperature, pressure, and humidity readings
-- Altitude estimation using sea-level pressure
-- Configurable oversampling, IIR filter, standby time, and power mode
-- Connection and measurement-status checks
-- Example output through USART2 and SWV/ITM
-- Automatic I2C scan when initialization fails
+- Komunikasi I2C berbasis STM32 HAL
+- Alamat I2C BME280 `0x76` dan `0x77`
+- Verifikasi chip ID dan software reset
+- Pemuatan data kalibrasi pabrik
+- Pembacaan suhu, tekanan, dan kelembapan terkompensasi
+- Estimasi ketinggian menggunakan tekanan permukaan laut
+- Oversampling, filter IIR, standby time, dan power mode yang dapat dikonfigurasi
+- Pengecekan koneksi dan status pengukuran
+- Contoh output lewat USART2 dan SWV/ITM
+- Scan I2C otomatis saat inisialisasi gagal
 
-## Hardware Configuration
+## Konfigurasi Hardware
 
-| Component | Configuration |
+| Komponen | Konfigurasi |
 | --- | --- |
-| Microcontroller | STM32F401CCU6 |
+| Mikrokontroler | STM32F401CCU6 |
 | Sensor | Bosch BME280 |
-| Interface | I2C1 at 100 kHz |
+| Antarmuka | I2C1 pada 100 kHz |
 | I2C SCL | PB6 |
 | I2C SDA | PB7 |
-| Debug output | USART2 at 115200 baud |
+| Output debug | USART2 pada 115200 baud |
 | USART2 TX / RX | PA2 / PA3 |
 | System clock | 84 MHz |
 
 ## Wiring
 
-| BME280 | STM32F401CCU6 | Description |
+| BME280 | STM32F401CCU6 | Deskripsi |
 | --- | --- | --- |
-| VIN / VCC | 3.3 V | Sensor power |
+| VIN / VCC | 3.3 V | Daya sensor |
 | GND | GND | Ground |
-| SCL / SCK | PB6 | I2C1 clock |
-| SDA / SDI | PB7 | I2C1 data |
-| CSB | 3.3 V | Select I2C mode when required |
-| SDO | GND or 3.3 V | Select address `0x76` or `0x77` |
+| SCL / SCK | PB6 | Clock I2C1 |
+| SDA / SDI | PB7 | Data I2C1 |
+| CSB | 3.3 V | Memilih mode I2C bila diperlukan |
+| SDO | GND atau 3.3 V | Memilih alamat `0x76` atau `0x77` |
 
-> Use 3.3 V logic. Many BME280 modules include I2C pull-up resistors; a bare sensor requires suitable pull-ups on SDA and SCL.
+> Gunakan logika 3.3 V. Banyak modul BME280 sudah menyertakan resistor pull-up I2C; sensor polos memerlukan pull-up yang sesuai pada SDA dan SCL.
 
-## Repository Structure
+## Struktur Repositori
 
 ```text
 .
 ├── Core
 │   ├── Inc
-│   │   └── BME280_STM32.h       # Driver API and definitions
+│   │   └── BME280_STM32.h       # API driver dan definisi
 │   └── Src
-│       ├── BME280_STM32.c       # Driver implementation
-│       └── main.c               # Example application
-├── Drivers                      # STM32F4 HAL and CMSIS
-├── i2c_bme280_test.ioc          # STM32CubeMX configuration
+│       ├── BME280_STM32.c       # Implementasi driver
+│       └── main.c               # Aplikasi contoh
+├── Drivers                      # STM32F4 HAL dan CMSIS
+├── i2c_bme280_test.ioc          # Konfigurasi STM32CubeMX
 ├── STM32F401CCUX_FLASH.ld       # Linker script
 └── LICENSE
 ```
 
-## Getting Started
+## Memulai
 
-### 1. Clone the repository
+### 1. Clone repositori
 
 ```bash
 git clone https://github.com/mjmokhtar/bme280-lib-hal.git
 cd bme280-lib-hal
 ```
 
-### 2. Open the project
+### 2. Buka project
 
-Import the repository as an existing project in **STM32CubeIDE**. The original configuration uses STM32CubeMX 6.9.2 and STM32Cube FW_F4 V1.27.1.
+Import repositori sebagai existing project di **STM32CubeIDE**. Konfigurasi aslinya memakai STM32CubeMX 6.9.2 dan STM32Cube FW_F4 V1.27.1.
 
-If needed, open `i2c_bme280_test.ioc` and regenerate the initialization code for your installed STM32F4 firmware package.
+Jika perlu, buka `i2c_bme280_test.ioc` lalu regenerate kode inisialisasi sesuai firmware package STM32F4 yang terpasang.
 
-### 3. Connect and configure the sensor
+### 3. Hubungkan dan konfigurasi sensor
 
-Wire the BME280 to PB6 and PB7. The example uses address `0x76`:
+Hubungkan BME280 ke PB6 dan PB7. Contoh memakai alamat `0x76`:
 
 ```c
 BME280_ADDRESS_PRIMARY
 ```
 
-Use `BME280_ADDRESS_SECONDARY` for a module configured as `0x77`.
+Gunakan `BME280_ADDRESS_SECONDARY` untuk modul yang dikonfigurasi sebagai `0x77`.
 
-### 4. Build, flash, and monitor
+### 4. Build, flash, dan monitor
 
-Build and flash the firmware with STM32CubeIDE and an ST-Link programmer. Open a serial terminal at **115200 baud, 8-N-1**. Measurements are updated approximately every two seconds.
+Build dan flash firmware dengan STM32CubeIDE dan programmer ST-Link. Buka terminal serial pada **115200 baud, 8-N-1**. Pengukuran diperbarui kira-kira setiap dua detik.
 
-Example output:
+Contoh output:
 
 ```text
 BME280 initialization successful!
@@ -105,16 +107,16 @@ Humidity: 68.15%
 Altitude: 49.08 m
 ```
 
-## Using the Driver in Another Project
+## Memakai Driver di Project Lain
 
-Copy these files into your STM32 project:
+Salin file-file ini ke project STM32 kamu:
 
 ```text
 Core/Inc/BME280_STM32.h
 Core/Src/BME280_STM32.c
 ```
 
-Initialize I2C before calling the driver:
+Inisialisasi I2C sebelum memanggil driver:
 
 ```c
 #include "BME280_STM32.h"
@@ -129,30 +131,30 @@ if (BME280_Init(&bme280, &hi2c1, BME280_ADDRESS_PRIMARY)) {
 }
 ```
 
-Pass the normal 7-bit address to `BME280_Init()`. The driver shifts it internally because STM32 HAL expects the address in 8-bit form.
+Berikan alamat 7-bit normal ke `BME280_Init()`. Driver menggesernya sendiri karena STM32 HAL mengharapkan alamat dalam bentuk 8-bit.
 
-For another STM32 family, replace this include in `BME280_STM32.h`:
+Untuk keluarga STM32 lain, ganti include ini di `BME280_STM32.h`:
 
 ```c
 #include "stm32f4xx_hal.h"
 ```
 
-with the correct HAL header, such as `stm32f1xx_hal.h` or `stm32l4xx_hal.h`.
+dengan header HAL yang sesuai, seperti `stm32f1xx_hal.h` atau `stm32l4xx_hal.h`.
 
-## Default Configuration
+## Konfigurasi Default
 
-`BME280_Init()` applies:
+`BME280_Init()` menerapkan:
 
-| Setting | Default |
+| Pengaturan | Default |
 | --- | --- |
-| Temperature oversampling | ×16 |
-| Pressure oversampling | ×16 |
-| Humidity oversampling | ×16 |
-| IIR filter | Coefficient 16 |
+| Oversampling suhu | ×16 |
+| Oversampling tekanan | ×16 |
+| Oversampling kelembapan | ×16 |
+| Filter IIR | Koefisien 16 |
 | Standby time | 0.5 ms |
 | Power mode | Normal |
 
-The configuration can be changed after initialization:
+Konfigurasi dapat diubah setelah inisialisasi:
 
 ```c
 BME280_SetMode(&bme280, BME280_MODE_NORMAL);
@@ -163,9 +165,9 @@ BME280_SetFilter(&bme280, BME280_FILTER_4);
 BME280_SetStandbyTime(&bme280, BME280_STANDBY_1000);
 ```
 
-## Main API
+## API Utama
 
-### Initialization and status
+### Inisialisasi dan status
 
 ```c
 bool BME280_Init(BME280_HandleTypeDef *bme, I2C_HandleTypeDef *hi2c, uint8_t address);
@@ -175,7 +177,7 @@ uint8_t BME280_GetChipID(BME280_HandleTypeDef *bme);
 void BME280_Reset(BME280_HandleTypeDef *bme);
 ```
 
-### Measurements
+### Pengukuran
 
 ```c
 float BME280_ReadTemperature(BME280_HandleTypeDef *bme);
@@ -184,50 +186,50 @@ float BME280_ReadHumidity(BME280_HandleTypeDef *bme);
 float BME280_ReadAltitude(BME280_HandleTypeDef *bme, float seaLevelPressure);
 ```
 
-## Altitude Accuracy
+## Akurasi Ketinggian
 
-Altitude is estimated from atmospheric pressure. The example uses `1013.25 hPa`, the standard mean sea-level pressure:
+Ketinggian diperkirakan dari tekanan atmosfer. Contoh memakai `1013.25 hPa`, yaitu tekanan rata-rata standar permukaan laut:
 
 ```c
 BME280_ReadAltitude(&bme280, 1013.25f);
 ```
 
-For better local accuracy, use the current sea-level pressure reported by a nearby weather station. BME280 altitude is an estimate, not a replacement for GNSS or surveyed elevation.
+Untuk akurasi lokal yang lebih baik, gunakan tekanan permukaan laut terkini dari stasiun cuaca terdekat. Ketinggian BME280 hanyalah estimasi, bukan pengganti GNSS atau elevasi hasil survei.
 
-## Troubleshooting
+## Pemecahan Masalah
 
-### Initialization fails
+### Inisialisasi gagal
 
-- Confirm the module is powered with compatible 3.3 V logic.
-- Check SDA, SCL, and GND connections.
-- Try both `0x76` and `0x77`.
-- Ensure SDA and SCL have pull-up resistors.
-- Verify I2C1 is initialized before `BME280_Init()`.
-- Check the serial output; the example scans the bus after a failure.
+- Pastikan modul diberi daya dengan logika 3.3 V yang kompatibel.
+- Periksa sambungan SDA, SCL, dan GND.
+- Coba kedua alamat, `0x76` dan `0x77`.
+- Pastikan SDA dan SCL memiliki resistor pull-up.
+- Pastikan I2C1 sudah diinisialisasi sebelum `BME280_Init()`.
+- Periksa output serial; contoh akan men-scan bus setelah terjadi kegagalan.
 
-### Pressure works but humidity is incorrect
+### Tekanan berfungsi tapi kelembapan salah
 
-Confirm the device is a **BME280**, not a BMP280. The BMP280 has no humidity sensor. The expected BME280 chip ID is `0x60`.
+Pastikan perangkat adalah **BME280**, bukan BMP280. BMP280 tidak memiliki sensor kelembapan. Chip ID BME280 yang diharapkan adalah `0x60`.
 
-### No UART output
+### Tidak ada output UART
 
-- Use 115200 baud.
-- Confirm USART2 TX is available on PA2.
-- Ensure the board and serial adapter share a common ground.
+- Gunakan baud rate 115200.
+- Pastikan USART2 TX tersedia di PA2.
+- Pastikan board dan adaptor serial berbagi ground yang sama.
 
-## Notes
+## Catatan
 
-- The driver uses blocking STM32 HAL I2C calls.
-- Pressure and humidity reads refresh the temperature compensation value internally.
-- The current implementation supports I2C; SPI is not implemented.
-- The header targets STM32F4 HAL but can be adapted to another STM32 HAL family.
+- Driver memakai panggilan I2C STM32 HAL yang blocking.
+- Pembacaan tekanan dan kelembapan memperbarui nilai kompensasi suhu secara internal.
+- Implementasi saat ini mendukung I2C; SPI belum diimplementasikan.
+- Header menargetkan STM32F4 HAL tetapi dapat diadaptasi ke keluarga STM32 HAL lain.
 
-## Contributing
+## Kontribusi
 
-Issues and pull requests are welcome. Please include the STM32 target, sensor address, wiring, and reproduction steps when reporting a problem.
+Issue dan pull request sangat diterima. Sertakan target STM32, alamat sensor, wiring, dan langkah reproduksi saat melaporkan masalah.
 
-## License
+## Lisensi
 
-Distributed under the [MIT License](LICENSE).
+Didistribusikan di bawah [MIT License](LICENSE).
 
 Copyright © 2025 Muhammad Jumi'at Mokhtar.
